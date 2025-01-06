@@ -28,7 +28,7 @@ app.use(express.json());
 // Root route - Friendly message with HTML formatting
 app.get("/", (req, res) => {
   res.status(200).json({
-    message: "Welcome to the Music-Library-Management API!<br>Please use the appropriate routes to interact with the service."
+    message: "Welcome to the Music-Library-Management API!"
   });
 });
 
