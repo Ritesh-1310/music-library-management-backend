@@ -25,6 +25,18 @@ mongoose
 
 app.use(express.json());
 
+// Root route - Friendly message
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Welcome to the API! Please use the appropriate routes to interact with the service.",
+  });
+});
+
+// Health check route
+app.get("/api/v1/health", (req, res) => {
+  res.status(200).json({ message: "Server is healthy" });
+});
+
 // Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
@@ -32,6 +44,18 @@ app.use("/api/v1/artists", artistRoutes);
 app.use("/api/v1/albums", albumRoutes);
 app.use("/api/v1/tracks", trackRoutes);
 app.use("/api/v1/favorites", favoriteRoutes);
+
+
+// Not found route
+app.use((req, res, next) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Something went wrong, please try again later." });
+});
 
 // Start the server
 const PORT = process.env.PORT || 5000;
