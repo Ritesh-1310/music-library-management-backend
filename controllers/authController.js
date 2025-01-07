@@ -89,8 +89,14 @@ const login = async (req, res) => {
     const token = jwt.sign(
       { user_id: user.user_id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRATION || "1h" }
+      { expiresIn: process.env.JWT_EXPIRATION || "24h" }
     );
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // 24h
+      secure: process.env.NODE_ENV === "production", // Secure in production
+    });
 
     res.status(200).json({
       status: 200,

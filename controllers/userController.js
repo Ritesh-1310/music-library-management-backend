@@ -13,15 +13,15 @@ const getUsers = async (req, res) => {
 
     res.status(200).json({
       status: 200,
-      message: "Users retrieved successfully.",
       data: users,
+      message: "Users retrieved successfully.",
       error: null,
     });
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: "Internal Server Error.",
       data: null,
+      message: "Internal Server Error.",
       error: error.message,
     });
   }
@@ -34,8 +34,8 @@ const addUser = async (req, res) => {
     if (!email || !password || !role) {
       return res.status(400).json({
         status: 400,
-        message: "Email, password, and role are required.",
         data: null,
+        message: "Email, password, and role are required.",
         error: "Validation error.",
       });
     }
@@ -43,8 +43,8 @@ const addUser = async (req, res) => {
     if (!["Editor", "Viewer"].includes(role)) {
       return res.status(400).json({
         status: 400,
-        message: "Role must be 'Editor' or 'Viewer'.",
         data: null,
+        message: "Role must be 'Editor' or 'Viewer'.",
         error: "Validation error.",
       });
     }
@@ -53,8 +53,8 @@ const addUser = async (req, res) => {
     if (existingUser) {
       return res.status(409).json({
         status: 409,
-        message: "Email already exists.",
         data: null,
+        message: "Email already exists.",
         error: "Conflict error.",
       });
     }
@@ -71,17 +71,17 @@ const addUser = async (req, res) => {
     await newUser.save();
     res.status(201).json({
       status: 201,
-      message: "User added successfully.",
       data: {
         user_id: newUser.user_id,
       },
+      message: "User added successfully.",
       error: null,
     });
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: "Internal Server Error.",
       data: null,
+      message: "Internal Server Error.",
       error: error.message,
     });
   }
@@ -95,23 +95,23 @@ const deleteUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         status: 404,
-        message: "User not found.",
         data: null,
+        message: "User not found.",
         error: "Resource not found.",
       });
     }
 
     res.status(200).json({
       status: 200,
-      message: "User deleted successfully.",
       data: null,
+      message: "User deleted successfully.",
       error: null,
     });
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: "Internal Server Error.",
       data: null,
+      message: "Internal Server Error.",
       error: error.message,
     });
   }
@@ -124,8 +124,8 @@ const updatePassword = async (req, res) => {
     if (!old_password || !new_password) {
       return res.status(400).json({
         status: 400,
-        message: "Old and new passwords are required.",
         data: null,
+        message: "Old and new passwords are required.",
         error: "Validation error.",
       });
     }
@@ -134,8 +134,8 @@ const updatePassword = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         status: 404,
-        message: "User not found.",
         data: null,
+        message: "User not found.",
         error: "Resource not found.",
       });
     }
@@ -144,8 +144,8 @@ const updatePassword = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({
         status: 400,
-        message: "Old password is incorrect.",
         data: null,
+        message: "Old password is incorrect.",
         error: "Validation error.",
       });
     }
@@ -165,8 +165,8 @@ const updatePassword = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: "Internal Server Error.",
       data: null,
+      message: "Internal Server Error.",
       error: error.message,
     });
   }

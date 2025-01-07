@@ -15,15 +15,15 @@ const getAllTracks = async (req, res) => {
 
     res.status(200).json({
       status: 200,
-      message: "Tracks retrieved successfully.",
       data: tracks,
+      message: "Tracks retrieved successfully.",
       error: null,
     });
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: "Internal Server Error.",
       data: null,
+      message: "Internal Server Error.",
       error: error.message,
     });
   }
@@ -37,23 +37,23 @@ const getTrackById = async (req, res) => {
     if (!track) {
       return res.status(404).json({
         status: 404,
-        message: "Track not found.",
         data: null,
+        message: "Track not found.",
         error: "Resource not found.",
       });
     }
 
     res.status(200).json({
       status: 200,
-      message: "Track retrieved successfully.",
       data: track,
+      message: "Track retrieved successfully.",
       error: null,
     });
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: "Internal Server Error.",
       data: null,
+      message: "Internal Server Error.",
       error: error.message,
     });
   }
@@ -75,17 +75,17 @@ const addTrack = async (req, res) => {
     await track.save();
     res.status(201).json({
       status: 201,
-      message: "Track created successfully.",
       data: {
         track_id: track.track_id,
       },
+      message: "Track created successfully.",
       error: null,
     });
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: "Internal Server Error.",
       data: null,
+      message: "Internal Server Error.",
       error: error.message,
     });
   }
@@ -101,8 +101,8 @@ const updateTrack = async (req, res) => {
     if (!track) {
       return res.status(404).json({
         status: 404,
-        message: "Track not found.",
         data: null,
+        message: "Track not found.",
         error: "Resource not found.",
       });
     }
@@ -119,8 +119,8 @@ const updateTrack = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: "Internal Server Error.",
       data: null,
+      message: "Internal Server Error.",
       error: error.message,
     });
   }
@@ -134,8 +134,8 @@ const deleteTrack = async (req, res) => {
     if (!track) {
       return res.status(404).json({
         status: 404,
-        message: "Track not found.",
         data: null,
+        message: "Track not found.",
         error: "Resource not found.",
       });
     }
@@ -149,8 +149,8 @@ const deleteTrack = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: "Internal Server Error.",
       data: null,
+      message: "Internal Server Error.",
       error: error.message,
     });
   }

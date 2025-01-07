@@ -1,6 +1,7 @@
 require("dotenv").config(); 
 const express = require("express");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -23,14 +24,49 @@ mongoose
     process.exit(1);
   });
 
+// Middleware
+app.use(cookieParser());
 app.use(express.json());
 
 // Root route - Friendly message with HTML formatting
 app.get("/", (req, res) => {
+  const routes = [];
+
+  const extractRoutes = (stack, parentPath = "") => {
+    stack.forEach((middleware) => {
+      if (middleware.route) {
+        // Route-level middleware
+        let fullPath = parentPath + middleware.route.path;
+        fullPath = fullPath
+          .replace(/\?\(\?=\/\|\$\)/g, "") 
+          .replace(/\/+/g, "/"); 
+        routes.push({
+          path: fullPath,
+          methods: Object.keys(middleware.route.methods).join(", ").toUpperCase(),
+        });
+      } else if (middleware.name === "router") {
+        // Nested router
+        const nestedPath =
+          parentPath +
+          middleware.regexp
+            .source.replace(/\\\//g, "/") 
+            .replace(/\^|\$$/g, "") 
+            .replace(/\?\(\?=\/\|\$\)/g, "")
+            .replace(/\/+/g, "/"); 
+        extractRoutes(middleware.handle.stack, nestedPath);
+      }
+    });
+  };
+
+  extractRoutes(app._router.stack);
+
+  // Send the routes as a response
   res.status(200).json({
-    message: "Welcome to the Music-Library-Management API!"
+    message: "Welcome to the Music-Library-Management API!",
+    availableRoutes: routes,
   });
 });
+
 
 // Health check route
 app.get("/api/v1/health", (req, res) => {
